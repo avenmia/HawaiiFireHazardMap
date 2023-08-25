@@ -1,0 +1,12 @@
+.App {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+
+.leaflet-container{
+  height: 500px;
+  width: 500px;
+}
+
+#map { height: 180px; }
