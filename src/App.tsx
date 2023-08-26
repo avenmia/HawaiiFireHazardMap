@@ -4,7 +4,13 @@ import './App.css'
 import { MapContainer, Marker, Popup, TileLayer, useMap,  GeoJSON as GeoJSONComponent } from 'react-leaflet';
 import HawaiiFireData from "./data/Fire_Risk_Areas.json";
 import type { GeoJsonObject, Feature, Geometry } from "geojson";
+import { LeafletMouseEvent } from "leaflet";
 
+
+interface FeatureProperties {
+  commu_name: string;
+  risk_rating: string;
+}
 
 function App() {
   const geoJsonRef = useRef();
@@ -33,10 +39,26 @@ function App() {
     }
   };
 
-
   const handleFeature = (feature: any, layer: any) => {
-    console.log(feature.properties.risk_rating);
-    layer.bindPopup(feature.properties.name20);
+    layer.on("mouseover", (e: LeafletMouseEvent) => {
+      const featureProperties = feature.properties as FeatureProperties;
+      e.target
+        .setStyle({
+          fillOpacity: 0.5,
+        })
+        .bindPopup(
+          `Name: ${featureProperties["commu_name"]} <br> Risk Rating: ${featureProperties["risk_rating"]}`,
+          { autoPan: false }
+        )
+        .openPopup();
+    });
+    layer.on("mouseout", (e: LeafletMouseEvent) => {
+      if (!geoJsonRef.current) {
+        return;
+      }
+      e.target.setStyle({fillOpacity: 0.2});
+    });
+    return null;
   };
 
   return (
