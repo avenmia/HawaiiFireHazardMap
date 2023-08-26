@@ -51,7 +51,7 @@ function App() {
               data={HawaiiFireData as GeoJsonObject}
               style={(
                 val:
-                  | Feature<Geometry, { pop20: number; name20: string }>
+                  | Feature<Geometry, { pop20: number; name20: string, risk_rating: string }>
                   | undefined
               ) => areaStyle(val)}
               onEachFeature={(feature, layer) => handleFeature(feature, layer)}
